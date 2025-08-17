@@ -5,7 +5,7 @@
 
 A comprehensive machine learning pipeline for generating high-resolution nitrogen dioxide (NO₂) concentration maps by integrating satellite observations, meteorological data, emissions inventories, traffic patterns, land-use information, and topographic features.
 
-## 🎯 Overview
+##  Overview
 
 This project provides a reproducible workflow for building hourly to monthly NO₂ concentration maps over Europe (or any region of interest) using TROPOMI/Sentinel-5P satellite data combined with multiple spatial predictors and machine learning techniques.
 
@@ -18,7 +18,7 @@ This project provides a reproducible workflow for building hourly to monthly NO�
 - **Scalable processing**: Memory-efficient sub-region prediction and merging
 - **Reproducible workflow**: Comprehensive data processing and modeling scripts
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -46,7 +46,7 @@ This project provides a reproducible workflow for building hourly to monthly NO�
    pip install -r requirements.txt
    ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ml_project/
@@ -82,7 +82,7 @@ ml_project/
     └── predict_maps.py
 ```
 
-## 📊 Data Sources
+##  Data Sources
 
 ### Primary Datasets
 
@@ -100,7 +100,7 @@ ml_project/
 - **Population Data**: Global Human Settlement (GHS-POP)
 - **Emissions**: TNO/MACC-3 NOx point-source emissions
 
-## 🔄 Processing Pipeline
+##  Processing Pipeline
 
 ### 1. Data Download
 ```bash
@@ -156,7 +156,7 @@ python model_predict_map/predict_maps.py
 python model_predict_map/merge_predictions.py 
 ```
 
-## 🧠 Methodology
+##  Methodology
 
 ### Spatial Processing
 - All predictors are regridded to a common 100m grid aligned with CORINE Land Cover
@@ -169,7 +169,7 @@ python model_predict_map/merge_predictions.py
 - **Validation**: Spatial and temporal cross-validation
 - **Features**: ~50+ predictors including meteorology, land use, traffic, topography, and emissions
 
-## 🔧 System Requirements
+##  System Requirements
 
 ### Minimum Requirements
 - **RAM**: 16 GB
@@ -183,7 +183,7 @@ python model_predict_map/merge_predictions.py
 - **CPU**: 8+ cores
 - **GPU**: CUDA-compatible (for large-scale processing)
 
-## 📋 Dependencies
+##  Dependencies
 
 ### Core Scientific Libraries
 ```
@@ -214,20 +214,7 @@ umap-learn>=0.5.0
 hdbscan>=0.8.0
 ```
 
-## 📄 Citation
-
-If you use this code in your research, please cite:
-
-```bibtex
-@software{no2_mapping_pipeline,
-  title={High-Resolution NO₂ Mapping and Modeling Pipeline},
-  author={Saket Kumar},
-  year={2024},
-  url={https://github.com/saket5ingh/DownNo2_XGBoost}
-}
-```
-
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - European Space Agency (ESA) for Sentinel-5P TROPOMI data
 - European Centre for Medium-Range Weather Forecasts (ECMWF) for ERA5 reanalysis
