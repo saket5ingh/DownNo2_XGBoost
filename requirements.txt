@@ -1,0 +1,17 @@
+PyWavelets
+cartopy
+cdsapi
+dask
+hdbscan
+joblib
+matplotlib
+numpy
+pandas
+pyshp
+requests
+scikit-learn
+scipy
+shapely
+umap-learn
+xarray
+xgboost
