@@ -46,16 +46,6 @@ This project provides a reproducible workflow for building hourly to monthly NO�
    pip install -r requirements.txt
    ```
 
-4. **Configure credentials (optional)**
-   ```bash
-   # For ERA5 meteorological data
-   export CDSAPI_URL="https://cds.climate.copernicus.eu/api/v2"
-   export CDSAPI_KEY="your_cds_api_key"
-   
-   # For map visualization (optional)
-   export MAPBOX_TOKEN="your_mapbox_token"
-   ```
-
 ## 📁 Project Structure
 
 ```
@@ -115,87 +105,61 @@ ml_project/
 ### 1. Data Download
 ```bash
 # Download satellite NO₂ data
-python data_download/download_sentinel_no2.py --region europe --date 2020-01-01:2020-12-31
+python data_download/download_sentinel_no2.py
 
 # Download meteorological data
-python data_download/download_era5_weather.py --variables temperature,wind --year 2020
+python data_download/download_era5_weather.py
 
 # Download air quality station data
-python data_download/download_airbase_stations.py --pollutant NO2 --year 2020
+python data_download/download_airbase_stations.py
 ```
 
 ### 2. Data Preprocessing
 ```bash
 # Process and regrid satellite data to 100m resolution
-python data_process/preprocess_sentinel_reindex.py --input raw_sentinel/ --output processed/
+python data_process/preprocess_sentinel_reindex.py 
 
 # Interpolate satellite data to hourly resolution
-python data_process/interpolate_sentinel_hourly.py --input processed/ --output hourly/
+python data_process/interpolate_sentinel_hourly.py 
 
 # Extract topographic features using wavelet decomposition
-python data_process/feature_dem_topography.py --dem_file eu_dem.tif --output topo_features/
+python data_process/feature_dem_topography.py
 
 # Interpolate meteorology to target grid
-python data_process/interpolate_meteorology.py --era5_path era5/ --target_grid grid_100m.nc
+python data_process/interpolate_meteorology.py 
 ```
 
 ### 3. Feature Engineering
 ```bash
 # Generate Gaussian convolution features for emissions
-python data_process/feature_gaussian_convolution.py --emissions_file nox_emissions.nc
+python data_process/feature_gaussian_convolution.py
 
 # Rasterize traffic data to target grid
-python data_process/rasterize_traffic_nuts3.py --traffic_file nuts3.xls --output traffic_raster.nc
+python data_process/rasterize_traffic_nuts3.py 
 
 # Create master training dataset
-python data_process/generate_master_dataset.py --config config.yaml
+python data_process/generate_master_dataset.py 
 ```
 
 ### 4. Model Training
 ```bash
 # Train XGBoost model with stratified sampling
-python model_train/train_model.py --data master_dataset.nc --output models/xgboost_model.pkl
+python model_train/train_model.py 
 ```
 
 ### 5. Prediction and Mapping
 ```bash
 # Generate predictions for specific month and region
-python model_predict_map/predict_maps.py --model models/xgboost_model.pkl --month 2020-06 --region europe
+python model_predict_map/predict_maps.py 
 
 # Merge sub-region predictions
-python model_predict_map/merge_predictions.py --input predictions/ --output final_maps/
-```
-
-## ⚙️ Configuration
-
-### Environment Variables
-Create a `.env` file or set environment variables:
-
-```bash
-# Required for ERA5 data download
-CDSAPI_URL=https://cds.climate.copernicus.eu/api/v2
-CDSAPI_KEY=your_key_here
-
-# Optional for enhanced map visualization
-MAPBOX_TOKEN=your_token_here
-
-# Optional: specify data directories
-DATA_DIR=/path/to/large/storage
-OUTPUT_DIR=/path/to/outputs
-```
-
-### CDS API Setup
-For ERA5 meteorological data, create `~/.cdsapirc`:
-```
-url: https://cds.climate.copernicus.eu/api/v2
-key: your_uid:your_api_key
+python model_predict_map/merge_predictions.py 
 ```
 
 ## 🧠 Methodology
 
 ### Spatial Processing
 - All predictors are regridded to a common 100m grid aligned with CORINE Land Cover
-- Gap-filling of satellite observations using methods from [Kuhlmann et al. (2014)](https://amt.copernicus.org/articles/7/451/2014/)
 - Topographic feature extraction via 2D wavelet transforms
 - Gaussian convolution applied to emissions data for distance-based features
 
@@ -204,14 +168,6 @@ key: your_uid:your_api_key
 - **Sampling Strategy**: Stratified sampling using UMAP clustering
 - **Validation**: Spatial and temporal cross-validation
 - **Features**: ~50+ predictors including meteorology, land use, traffic, topography, and emissions
-
-## 📈 Performance
-
-The model achieves:
-- **R²**: ~0.75-0.85 for hourly predictions
-- **RMSE**: ~8-12 μg/m³ against AirBase stations
-- **Spatial resolution**: 100m across Europe
-- **Temporal resolution**: Hourly to monthly averages
 
 ## 🔧 System Requirements
 
@@ -258,23 +214,6 @@ umap-learn>=0.5.0
 hdbscan>=0.8.0
 ```
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### Development Setup
-```bash
-# Install development dependencies
-pip install -r requirements-dev.txt
-
-# Run tests
-pytest tests/
-
-# Check code style
-flake8 ml_project/
-black ml_project/
-```
-
 ## 📄 Citation
 
 If you use this code in your research, please cite:
@@ -282,21 +221,11 @@ If you use this code in your research, please cite:
 ```bibtex
 @software{no2_mapping_pipeline,
   title={High-Resolution NO₂ Mapping and Modeling Pipeline},
-  author={Your Name and Contributors},
+  author={Saket Kumar},
   year={2024},
-  url={https://github.com/yourusername/ml_project}
+  url={https://github.com/saket5ingh/DownNo2_XGBoost}
 }
 ```
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Documentation**: [Wiki](https://github.com/yourusername/ml_project/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ml_project/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ml_project/discussions)
 
 ## 🙏 Acknowledgments
 
@@ -307,5 +236,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Maintainers**: [Your Name](mailto:your.email@domain.com)
+**Maintainers**: [Saket kumar](mailto:saketsingh9798@gmail.com)
 **Last Updated**: August 2025
